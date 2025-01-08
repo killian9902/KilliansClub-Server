@@ -1,0 +1,42 @@
+name: Deploy to EKS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout repository
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # Configure AWS Credentials
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1
+
+    # Log in to Amazon ECR
+    - name: Log in to Amazon ECR
+      run: |
+        aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 615299765743.dkr.ecr.ap-south-1.amazonaws.com
+
+    # Build and Push Docker Image
+    - name: Build and Push Docker Image
+      run: |
+        IMAGE_TAG=615299765743.dkr.ecr.ap-south-1.amazonaws.com/killiansclub-server:latest
+        docker build -t $IMAGE_TAG .
+        docker push $IMAGE_TAG
+
+    # Update EKS Deployment
+    - name: Update EKS Deployment
+      run: |
+        aws eks update-kubeconfig --region ap-south-1 --name killians-club
+        kubectl set image deployment/killiansclub-server killiansclub-server=615299765743.dkr.ecr.ap-south-1.amazonaws.com/killiansclub-server:latest
+        kubectl rollout status deployment/deployment
