@@ -44,5 +44,5 @@ jobs:
     - name: Update EKS Deployment
       run: |
         aws eks update-kubeconfig --region ap-south-1 --name killians-club
-        kubectl set image deployment/killiansclub-server killiansclub-server=615299765743.dkr.ecr.ap-south-1.amazonaws.com/killiansclub-server:latest
+        kubectl set image deployment/deployment killiansclub-server=615299765743.dkr.ecr.ap-south-1.amazonaws.com/killiansclub-server:latest
         kubectl rollout status deployment/deployment
