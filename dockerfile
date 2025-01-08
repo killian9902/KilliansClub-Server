@@ -6,6 +6,10 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
+
+# Give NPM run build permission to delete file 'build'
+RUN chmod -R 755 /app
+
 RUN npm run build
 
 
