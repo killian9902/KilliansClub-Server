@@ -27,6 +27,10 @@ jobs:
       run: |
         aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 615299765743.dkr.ecr.ap-south-1.amazonaws.com
 
+    # Debug File Permissions
+    - name: Debug File Permissions
+      run: ls -la /app
+
     # Build and Push Docker Image
     - name: Build and Push Docker Image
       run: |
