@@ -39,5 +39,5 @@ jobs:
     - name: Update EKS Deployment
       run: |
         aws eks update-kubeconfig --region ap-south-1 --name killians-club
-        kubectl set image deployment/deployment hello-world=615299765743.dkr.ecr.ap-south-1.amazonaws.com/killiansclub-server:$IMAGE_TAG --record
+        kubectl set image deployment/deployment hello-world=$IMAGE_TAG --record
         kubectl rollout status deployment/deployment
