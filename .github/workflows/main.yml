@@ -27,22 +27,17 @@ jobs:
       run: |
         aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 615299765743.dkr.ecr.ap-south-1.amazonaws.com
 
-    # Build Docker Image and Debug
-    - name: Build and Debug Docker Image
+    # Build Docker Image and Push
+    - name: Build and Push Docker Image
       run: |
-        IMAGE_TAG=615299765743.dkr.ecr.ap-south-1.amazonaws.com/killiansclub-server:latest
-        docker build -t $IMAGE_TAG . --build-arg DEBUG=true
-        docker run --rm $IMAGE_TAG ls -la /app
-
-    # Push Docker Image
-    - name: Push Docker Image
-      run: |
-        IMAGE_TAG=615299765743.dkr.ecr.ap-south-1.amazonaws.com/killiansclub-server:latest
+        IMAGE_TAG=615299765743.dkr.ecr.ap-south-1.amazonaws.com/killiansclub-server:${{ github.sha }}
+        docker build -t $IMAGE_TAG . 
         docker push $IMAGE_TAG
+        echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
 
     # Update EKS Deployment
     - name: Update EKS Deployment
       run: |
         aws eks update-kubeconfig --region ap-south-1 --name killians-club
-        kubectl set image deployment/deployment hello-world=615299765743.dkr.ecr.ap-south-1.amazonaws.com/killiansclub-server:latest
+        kubectl set image deployment/deployment hello-world=615299765743.dkr.ecr.ap-south-1.amazonaws.com/killiansclub-server:$IMAGE_TAG --record
         kubectl rollout status deployment/deployment
