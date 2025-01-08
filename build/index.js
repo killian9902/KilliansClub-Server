@@ -7,7 +7,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 const port = 3000;
-const allowedOrigins = ['https://killians.club', 'http://localhost'];
+const allowedOrigins = ['https://killians.club', 'http://localhost', 'http://localhost:5173'];
 const corsOptions = {
     origin: allowedOrigins,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],

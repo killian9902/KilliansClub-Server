@@ -5,7 +5,7 @@ import cors from 'cors';
 const app = express();
 const port = 3000;
 
-const allowedOrigins = ['https://killians.club', 'http://localhost'];
+const allowedOrigins = ['https://killians.club', 'http://localhost', 'http://localhost:5173'];
 
 const corsOptions = {
     origin: allowedOrigins,
@@ -16,7 +16,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.get('/', (req: Request, res: Response) => {
-    res.send('Express with TypeScript is working!!!');
+    res.send('Express with TypeScript is working with CORS and Github!!!');
 });
 
 app.listen(port, () => {
