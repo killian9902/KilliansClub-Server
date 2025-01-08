@@ -16,7 +16,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.get('/', (req: Request, res: Response) => {
-    res.send('Express with TypeScript is working with CORS and Github! Checking Actions.');
+    res.send('Express with TypeScript is working with CORS and Github! Checking Actions. Checkin again.');
 });
 
 app.listen(port, () => {
