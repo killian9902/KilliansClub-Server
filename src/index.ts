@@ -19,7 +19,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 // Route handler
 app.get('/', (req: Request, res: Response) => {
-    res.json({ message: 'Hello, world!' });
+    res.json({ message: 'Hello, world! This is Twanda!' });
 });
 
 // Start server
